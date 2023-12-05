@@ -8,8 +8,7 @@ public class Grid {
 	int height;
 	int maxVertex;
 
-	Random random = new Random();
-	
+
 	Graph graph;
 	
 	public int abscissaOfVertex(int vertex) {
@@ -34,14 +33,12 @@ public class Grid {
 				if (i < width - 1)
 					graph.addEdge(new Edge(
 									vertexOfCoordinate(i,j),
-									vertexOfCoordinate(i+1,j),
-									random.nextDouble(2)
+									vertexOfCoordinate(i+1,j)
 							));
 				if (j < height - 1)
 					graph.addEdge(new Edge(
 									vertexOfCoordinate(i,j),
-									vertexOfCoordinate(i,j+1),
-									random.nextDouble(2)
+									vertexOfCoordinate(i,j+1)
 						));
 			}
 		}

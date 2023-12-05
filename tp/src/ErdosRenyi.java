@@ -22,7 +22,7 @@ public class ErdosRenyi {
 		for (int i = 0; i < order; i++)
 			for (int j = i+1; j < order; j++) {
 				if (gen.nextDouble() < edgeProbability)
-					graph.addEdge(new Edge(i,j,0));
+					graph.addEdge(new Edge(i,j));
 			}
 	}
 	

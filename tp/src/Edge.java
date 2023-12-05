@@ -1,14 +1,17 @@
+import java.util.Random;
 
 public class Edge implements Comparable<Edge> {
 
 	protected int source;
 	protected int dest;
 	double weight;
-	
-	public Edge(int source, int dest, double weight) {
+	Random random = new Random();
+
+
+	public Edge(int source, int dest) {
 		this.source = source;
 		this.dest = dest;
-		this.weight = weight;
+		this.weight = random.nextDouble();
 	}
 	
 	public int compareTo(Edge e) {

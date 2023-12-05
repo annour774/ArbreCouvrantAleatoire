@@ -4,65 +4,39 @@ public class PrimAlgorithm {
 
     Graph graph;
     ArrayList<Arc> tree;
-     int[] F;
-    int maxWeight = 0;
-    double[] d;
-    int n;
-    int[] pred;
+    TreeSet<Arc> F;
+    BitSet reached;
 
-    private void apa(int s) {
-        F = new int[n];
-        d = new double[n];
-        pred = new int[n];
-        int length = n;
-        int u;
-        for(int i = 0; i < n; i++) {
-            d[i] = n * maxWeight + 1;
-        }
-        d[s] = 0;
-        pred[s] = -1;
-        while(length != 0){
-            u = extraireLeMin(F, d, length);
-            length--;
-            for(Arc arc: graph.outNeighbours(u)){
-                if(d[arc.getDest()] > arc.getWeight()) {
-                    d[arc.getDest()] = arc.getWeight();
-                    pred[arc.getDest()] = u;
-                };
-            }
-        }
+    private void push(int vertex) {
+        for (Arc arc : graph.outNeighbours(vertex)) F.add(arc);
     }
 
-    public int extraireLeMin(int[] F, double[] d, int length) {
-        double minD = maxWeight * n + 1;
-        int index = 0;
-        for(int i = 0; i < length; i++)
-            if(d[F[i]] < minD) {
-                minD = d[F[i]];
-                index = i;
-            }
-        int tmp = F[length - 1];
-        F[length - 1] = F[index];
-        F[index] = F[length - 1];
-        return F[length - 1];
+    private void explore(Arc nextArc) {
+        if (reached.get(nextArc.getDest())) return;
+        reached.set(nextArc.getDest());
+        tree.add(nextArc);
+        push(nextArc.getDest());
     }
 
-    public void creerArbre(){
-        for(int i = 0; i < n; i++){
-            tree.add(new Arc(new Edge(pred[i], (int)d[i], 0), false));
+
+    private void apa(int source){
+        reached.set(source);
+        push(source);
+        while(!F.isEmpty()){
+            explore(F.pollFirst());
         }
     }
 
     private PrimAlgorithm (Graph graph) {
         this.graph = graph;
         this.tree = new ArrayList<>();
-        this.n = graph.order;
+        F = new TreeSet<>(Comparator.comparing(Arc::getWeight));
+        this.reached = new BitSet();
     }
 
     public static ArrayList<Arc> generateTree(Graph graph, int root) {
         PrimAlgorithm algo = new PrimAlgorithm(graph);
         algo.apa(root);
-        algo.creerArbre();
         return algo.tree;
     }
 }

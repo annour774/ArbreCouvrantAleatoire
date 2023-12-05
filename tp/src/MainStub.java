@@ -15,7 +15,7 @@ public class MainStub {
 		
 		// Non-random BFS
 		ArrayList<Arc> randomArcTree =
-				RandomParcours.generateTree(graph, 0);
+				PrimAlgorithm.generateTree(graph, 0);
 		randomTree = new ArrayList<>();
 		for (Arc a : randomArcTree) randomTree.add(a.support);
 
