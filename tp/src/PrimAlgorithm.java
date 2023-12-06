@@ -8,7 +8,7 @@ public class PrimAlgorithm {
     BitSet reached;
 
     private void push(int vertex) {
-        for (Arc arc : graph.outNeighbours(vertex)) F.add(arc);
+        F.addAll(graph.outNeighbours(vertex));
     }
 
     private void explore(Arc nextArc) {
@@ -19,7 +19,7 @@ public class PrimAlgorithm {
     }
 
 
-    private void apa(int source){
+    private void pa(int source){
         reached.set(source);
         push(source);
         while(!F.isEmpty()){
@@ -36,7 +36,7 @@ public class PrimAlgorithm {
 
     public static ArrayList<Arc> generateTree(Graph graph, int root) {
         PrimAlgorithm algo = new PrimAlgorithm(graph);
-        algo.apa(root);
+        algo.pa(root);
         return algo.tree;
     }
 }

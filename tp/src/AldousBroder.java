@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AldousBroder {
 
@@ -9,23 +6,27 @@ public class AldousBroder {
     ArrayList<Arc> frontier;
     ArrayList<Arc> tree;
     Random random;
-    ArrayList<Integer> sommetsAtteints;
+    BitSet sommetsAtteints;
+    int cpt = 0;
     private Arc unVoisin(int vertex) {
         List<Arc> voisins = graph.outNeighbours(vertex);
         return  voisins.get(random.nextInt(voisins.size()));
     }
 
     private void ajouter(Arc sommet) {
-        if(! sommetsAtteints.contains(sommet.getDest())){
-            sommetsAtteints.add(sommet.getDest());
+        if(! sommetsAtteints.get(sommet.getDest())){
+            sommetsAtteints.set(sommet.getDest());
             tree.add(sommet);
+            cpt++;
         }
 
     }
 
     private void aab(int sommetDepart) {
         int sommetCourant = sommetDepart;
-        while(sommetsAtteints.size() != graph.adjacency.size()){
+        cpt++;
+        sommetsAtteints.set(sommetCourant);
+        while(cpt < graph.order){
             Arc unVoisin = unVoisin(sommetCourant);
             sommetCourant = unVoisin.getDest();
             ajouter(unVoisin);
@@ -37,7 +38,7 @@ public class AldousBroder {
         this.frontier = new ArrayList<>();
         this.tree = new ArrayList<>();
         this.random = new Random();
-        this.sommetsAtteints = new ArrayList<>();
+        this.sommetsAtteints = new BitSet();
     }
 
     public static ArrayList<Arc> generateTree(Graph graph, int root) {
